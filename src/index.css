@@ -85,3 +85,15 @@ button:focus-visible {
   grid-template-columns: repeat(3,1fr);
   gap: 1.5em;
 }
+.manipulate{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer{
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
