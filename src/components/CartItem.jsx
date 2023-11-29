@@ -1,8 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import { MdDelete } from "react-icons/md";
-import { REMOVE, INCREASE, DECREASE } from "../redux/actions";
-const CartItem = ({ img, title, price, amount, remove,decrease,increase }) => {
+import { REMOVE, INCREASE, DECREASE ,TOGGLE_AMOUNT,removeItem} from "../redux/actions";
+const CartItem = ({
+  img,
+  title,
+  price,
+  amount,
+  remove,
+  decrease,
+  increase,
+  toggle,
+}) => {
   return (
     <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow  dark:border-gray-700 cart-item align-middle">
       <div>
@@ -37,7 +46,13 @@ const CartItem = ({ img, title, price, amount, remove,decrease,increase }) => {
               </label>
               <div class="relative flex items-center">
                 <button
-                  onClick={() => decrease()}
+                  onClick={() => {
+                    if (amount === 1) {
+                      return remove();
+                    } else {
+                      return toggle("dec");
+                    }
+                  }}
                   type="button"
                   id="decrement-button"
                   data-input-counter-decrement="counter-input"
@@ -69,7 +84,7 @@ const CartItem = ({ img, title, price, amount, remove,decrease,increase }) => {
                   required
                 />
                 <button
-                  onClick={() => increase()}
+                  onClick={() => toggle("inc")}
                   type="button"
                   id="increment-button"
                   data-input-counter-increment="counter-input"
@@ -94,8 +109,8 @@ const CartItem = ({ img, title, price, amount, remove,decrease,increase }) => {
               </div>
             </div>
 
-            <div className="px-5">
-              <MdDelete onClick={() => remove()} />
+            <div className="px-5 cursor-pointer">
+              <MdDelete  onClick={() => remove()} />
             </div>
           </div>
         </div>
@@ -104,11 +119,12 @@ const CartItem = ({ img, title, price, amount, remove,decrease,increase }) => {
   );
 };
 const mapDispatchToProp = (dispatch, ownProps) => {
-  const { id,amount } = ownProps;
+  const { id, amount } = ownProps;
   return {
-    remove: () => dispatch({ type: REMOVE, payload: { id } }),
-    increase: () => dispatch({ type: INCREASE, payload: { id, amount} }),
-    decrease: () => dispatch({ type: DECREASE, payload: { id,amount } }),
+    remove: () => dispatch(removeItem(id)),
+    increase: () => dispatch({ type: INCREASE, payload: { id, amount } }),
+    decrease: () => dispatch({ type: DECREASE, payload: { id, amount } }),
+    toggle : (toggle) => dispatch({type:TOGGLE_AMOUNT,payload:{id,toggle}})
   };
 };
 export default connect(null, mapDispatchToProp)(CartItem);
