@@ -1,21 +1,20 @@
 import React from "react";
-
-const Navbar = ({cart}) => {
-  const {count} = cart
+import { connect } from "react-redux";
+const Navbar = ({count}) => {
   return (
-    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <nav class="bg-white border-gray-200 dark:bg-gray-900 rounded-md" >
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a
-          href="https://flowbite.com/"
+          href="https://redux.js.org/"
           class="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <img
-            src="/public/imgs/redux.png"
+            src="/imgs/redux.png"
             class="h-8"
             alt="Flowbite Logo"
           />
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            REDUX CART
+            CART
           </span>
         </a>
         <button
@@ -71,5 +70,7 @@ const Navbar = ({cart}) => {
     </nav>
   );
 };
-
-export default Navbar;
+const mapStateToProps = (state)=>{
+  return {count:state.count}
+}
+export default connect(mapStateToProps) (Navbar);
